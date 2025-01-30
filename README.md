@@ -58,7 +58,7 @@ This project is licensed under the [MIT License](LICENSE).
 ## Contact
 If you have any questions, suggestions, or need support, feel free to reach out:
 - **Email**: aditichavan2704@gmail.com
-- **GitHub**: [yourusername](https://github.com/aaditi72)
+- **GitHub**: aaditi72(https://github.com/aaditi72)
 
 ---
 We hope InMind becomes a valuable tool in your journey toward mental wellness. Thank you for being a part of our mission!
