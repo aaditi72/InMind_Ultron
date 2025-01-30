@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - InMind Wellness</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f0f7f4;
+            color: #2d3748;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            background: rgba(240, 247, 244, 0.9);
+            border-right: 1px solid #e2e8f0;
+            padding: 2rem;
+            width: 250px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            color: #4fd1c5;
+        }
+
+        .logo-section img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            color: #4a5568;
+            text-decoration: none;
+            background: #f7f7f7;
+            transition: background 0.2s ease-in-out;
+        }
+
+        .nav-item.active {
+            background: #4fd1c5;
+            color: #fff;
+        }
+
+        .nav-item:hover:not(.active) {
+            background: rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+        }
+
+        .main-content {
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .welcome-section {
+            margin-bottom: 2rem;
+        }
+
+        .welcome-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+        }
+
+        .welcome-subtitle {
+            font-size: 18px;
+            color: #718096;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: #2d3748;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+        }
+
+        .stat-label {
+            font-size: 18px;
+            color: #718096;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: #2d3748;
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+        }
+
+        .feature-description {
+            font-size: 16px;
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-section">
+                <img src="c:\Users\Aarti\OneDrive\Pictures\Screenshots\Screenshot 2025-01-30 060016.png" alt="InMind Logo">
+                <span>InMind</span>
+            </div>
+
+            <nav>
+                <a href="dashboard.html" class="nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="personalized.html" class="nav-item">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Personalized Support</span>
+                </a>
+                <a href="counselling.html" class="nav-item">
+                    <i class="fas fa-comments"></i>
+                    <span>Professional Counselling</span>
+                </a>
+                <a href="peer.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Peer-to-Peer Support</span>
+                </a>
+                <a href="tools.html" class="nav-item">
+                    <i class="fas fa-tools"></i>
+                    <span>Wellness Tools</span>
+                </a>
+                <a href="discord.html" class="nav-item">
+                    <i class="fab fa-discord"></i>
+                    <span>Discord Community</span>
+                </a>
+                <a href="settings.html" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-item" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div id="content">
+                <!-- Content will be loaded here -->
+                <div class="welcome-section">
+                    <h1 class="welcome-title">Welcome Back!</h1>
+                    <p class="welcome-subtitle">Track your progress and access your wellness tools</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">7</div>
+                        <div class="stat-label">Days Streak</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">85%</div>
+                        <div class="stat-label">Wellness Score</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Activities Completed</div>
+                    </div>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <h3 class="feature-title">Upcoming Sessions</h3>
+                        <p class="feature-description">You have 2 counseling sessions scheduled this week</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="feature-title">Progress Tracking</h3>
+                        <p class="feature-description">Your wellness score has improved by 15% this month</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <h3 class="feature-title">Daily Goals</h3>
+                        <p class="feature-description">Complete today's meditation and journaling tasks</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function loadContent(page) {
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Add active class to clicked nav item
+            document.querySelector(`[href="#${page}"]`).classList.add('active');
+
+            // Here you would typically load the content for each page
+            console.log(`Loading ${page} content...`);
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = 'index.html';
+        }
+
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const userData = localStorage.getItem('user');
+            if (!userData) {
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
+</body>
+</html>

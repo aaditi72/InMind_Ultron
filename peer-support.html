@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peer Support - InMind Wellness</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="sidebar-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .peer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .forum-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+
+        .forum-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .new-post-button {
+            background: #4fd1c5;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .new-post-button:hover {
+            background: #38b2ac;
+        }
+
+        .forum-posts {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .forum-post {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .author-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #4fd1c5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .post-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .post-tag {
+            background: rgba(79, 209, 197, 0.2);
+            color: #4fd1c5;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+        }
+
+        .post-action:hover {
+            color: #4fd1c5;
+        }
+
+        .buddy-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+
+        .buddy-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .buddy-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .buddy-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #4fd1c5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .buddy-info {
+            flex-grow: 1;
+        }
+
+        .buddy-interests {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .buddy-interest {
+            background: rgba(79, 209, 197, 0.2);
+            color: #4fd1c5;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .connect-button {
+            background: #4fd1c5;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .connect-button:hover {
+            background: #38b2ac;
+        }
+
+        .new-post-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(30, 41, 59, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            z-index: 1000;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .post-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .post-form input,
+        .post-form textarea {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.75rem;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .post-form textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo-container">
+            <img src="c:\Users\Aarti\OneDrive\Pictures\Screenshots\Screenshot 2025-01-30 060016.png" alt="InMind Logo">
+            <span>InMind</span>
+        </div>
+        <nav>
+            <a href="dashboard.html" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="personalized-support.html" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Personalized support</span>
+            </a>
+            <a href="counseling.html" class="nav-item">
+                <i class="fas fa-comments"></i>
+                <span>Professional Counseling</span>
+            </a>
+            <a href="peer-support.html" class="nav-item active">
+                <i class="fas fa-users"></i>
+                <span>Peer-to-Peer</span>
+            </a>
+            <a href="wellness-tools.html" class="nav-item">
+                <i class="fas fa-heart"></i>
+                <span>Real-Time Wellness</span>
+            </a>
+            <a href="discord.html" class="nav-item">
+                <i class="fab fa-discord"></i>
+                <span>Discord</span>
+            </a>
+            <a href="settings.html" class="nav-item settings-link">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+    </div>
+
+    <main class="main-content">
+        <h2>Peer Support</h2>
+        <p class="subtitle">Connect with others who understand your journey.</p>
+
+        <div class="peer-grid">
+            <div class="forum-container">
+                <div class="forum-header">
+                    <h3>Community Forum</h3>
+                    <button class="new-post-button" onclick="showNewPostModal()">
+                        <i class="fas fa-plus"></i> New Post
+                    </button>
+                </div>
+                <div class="forum-posts">
+                    <div class="forum-post">
+                        <div class="post-header">
+                            <div class="post-author">
+                                <div class="author-avatar">A</div>
+                                <span>Anonymous</span>
+                            </div>
+                            <span>2 hours ago</span>
+                        </div>
+                        <div class="post-content">
+                            <p>Finding balance between studies and mental health has been challenging...</p>
+                        </div>
+                        <div class="post-tags">
+                            <span class="post-tag">Academic Stress</span>
+                            <span class="post-tag">Self-Care</span>
+                        </div>
+                        <div class="post-actions">
+                            <div class="post-action">
+                                <i class="fas fa-heart"></i>
+                                <span>12</span>
+                            </div>
+                            <div class="post-action">
+                                <i class="fas fa-comment"></i>
+                                <span>5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="forum-post">
+                        <div class="post-header">
+                            <div class="post-author">
+                                <div class="author-avatar">M</div>
+                                <span>MindfulStudent</span>
+                            </div>
+                            <span>5 hours ago</span>
+                        </div>
+                        <div class="post-content">
+                            <p>Here's a meditation technique that helped me with exam anxiety...</p>
+                        </div>
+                        <div class="post-tags">
+                            <span class="post-tag">Meditation</span>
+                            <span class="post-tag">Anxiety</span>
+                        </div>
+                        <div class="post-actions">
+                            <div class="post-action">
+                                <i class="fas fa-heart"></i>
+                                <span>24</span>
+                            </div>
+                            <div class="post-action">
+                                <i class="fas fa-comment"></i>
+                                <span>8</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buddy-container">
+                <h3>Peer Buddy System</h3>
+                <div class="buddy-list">
+                    <div class="buddy-card">
+                        <div class="buddy-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="buddy-info">
+                            <h4>Sarah M.</h4>
+                            <div class="buddy-interests">
+                                <span class="buddy-interest">Mindfulness</span>
+                                <span class="buddy-interest">Art Therapy</span>
+                            </div>
+                        </div>
+                        <button class="connect-button">Connect</button>
+                    </div>
+
+                    <div class="buddy-card">
+                        <div class="buddy-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="buddy-info">
+                            <h4>Alex K.</h4>
+                            <div class="buddy-interests">
+                                <span class="buddy-interest">Stress Management</span>
+                                <span class="buddy-interest">Meditation</span>
+                            </div>
+                        </div>
+                        <button class="connect-button">Connect</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="new-post-modal" id="newPostModal">
+        <div class="modal-header">
+            <h3>Create New Post</h3>
+            <button class="close-modal" onclick="hideNewPostModal()">&times;</button>
+        </div>
+        <form class="post-form" onsubmit="submitPost(event)">
+            <input type="text" placeholder="Title" required>
+            <textarea placeholder="Share your thoughts..." required></textarea>
+            <input type="text" placeholder="Add tags (comma separated)">
+            <label>
+                <input type="checkbox"> Post anonymously
+            </label>
+            <button type="submit" class="new-post-button">Post</button>
+        </form>
+    </div>
+
+    <script>
+        // Modal Functions
+        function showNewPostModal() {
+            document.getElementById('modalOverlay').style.display = 'block';
+            document.getElementById('newPostModal').style.display = 'block';
+        }
+
+        function hideNewPostModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+            document.getElementById('newPostModal').style.display = 'none';
+        }
+
+        // Post Submission
+        function submitPost(event) {
+            event.preventDefault();
+            // Add post to forum
+            hideNewPostModal();
+        }
+
+        // Like and Comment Functions
+        const postActions = document.querySelectorAll('.post-action');
+        postActions.forEach(action => {
+            action.onclick = () => {
+                const count = action.querySelector('span');
+                count.textContent = parseInt(count.textContent) + 1;
+                action.style.color = '#4fd1c5';
+            };
+        });
+
+        // Buddy Connection
+        const connectButtons = document.querySelectorAll('.connect-button');
+        connectButtons.forEach(button => {
+            button.onclick = () => {
+                button.textContent = 'Connected';
+                button.style.background = '#38b2ac';
+                button.disabled = true;
+            };
+        });
+
+        // Check Authentication
+        function isAuthenticated() {
+            return localStorage.getItem('isAuthenticated') === 'true';
+        }
+
+        if (!isAuthenticated()) {
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

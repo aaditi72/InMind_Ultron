@@ -1,0 +1,217 @@
+/* Dashboard Specific Styles */
+.sidebar {
+    width: 250px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 2rem 1rem;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+.logo-container img {
+    width: 40px;
+    height: 40px;
+    margin-right: 1rem;
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.nav-item:hover, .nav-item.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.nav-item i {
+    margin-right: 1rem;
+    width: 20px;
+    text-align: center;
+}
+
+/* Weekly Process Chart */
+.chart-container {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.time-selector {
+    display: flex;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem;
+    border-radius: 25px;
+}
+
+.time-selector button {
+    padding: 0.5rem 1.5rem;
+    border: none;
+    background: none;
+    color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.time-selector button.active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Water Drink Tracker */
+.water-tracker {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 1.5rem;
+}
+
+.day-checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.day-checkbox input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+/* Circular Progress */
+.circular-progress {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 2rem auto;
+}
+
+.progress-ring {
+    transform: rotate(-90deg);
+}
+
+.progress-ring circle {
+    fill: none;
+    stroke-width: 8;
+}
+
+.progress-ring circle.bg {
+    stroke: rgba(255, 255, 255, 0.1);
+}
+
+.progress-ring circle.progress {
+    stroke: #4fd1c5;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.3s;
+}
+
+/* Mood Calendar */
+.mood-calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.mood-day {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.mood-day:hover {
+    transform: scale(1.1);
+}
+
+.mood-1 { background-color: #ff6b6b; }
+.mood-2 { background-color: #ffd93d; }
+.mood-3 { background-color: #6ce5ab; }
+.mood-4 { background-color: #4fd1c5; }
+.mood-5 { background-color: #63b3ed; }
+
+/* Mood Chart */
+.mood-chart {
+    height: 200px;
+    margin-top: 2rem;
+}
+
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 100px;
+    }
+    
+    .main-content {
+        margin-left: 100px;
+    }
+    
+    .nav-item span {
+        display: none;
+    }
+    
+    .logo-container span {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .nav-item span {
+        display: inline;
+    }
+}

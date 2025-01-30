@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellness Tools - InMind Wellness</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f0f7f4;
+            color: #2d3748;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            background: rgba(240, 247, 244, 0.9);
+            border-right: 1px solid #e2e8f0;
+            padding: 2rem;
+            width: 250px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .logo-section img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            color: #4a5568;
+            text-decoration: none;
+        }
+
+        .nav-item.active {
+            background: #4fd1c5;
+            color: #fff;
+        }
+
+        .nav-item:hover:not(.active) {
+            background: rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .welcome-section {
+            margin-bottom: 2rem;
+        }
+
+        .welcome-section h1 {
+            color: #2d3748;
+        }
+
+        .welcome-section p {
+            color: #718096;
+        }
+
+        .feature-card {
+            background: white;
+            color: #2d3748;
+        }
+
+        .feature-icon {
+            margin-bottom: 1rem;
+        }
+
+        .feature-icon i {
+            font-size: 24px;
+        }
+
+        .feature-title {
+            color: #2d3748;
+        }
+
+        .feature-description {
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-section">
+                <img src="c:\Users\Aarti\OneDrive\Pictures\Screenshots\Screenshot 2025-01-30 060016.png" alt="InMind Logo">
+                <span>InMind</span>
+            </div>
+            <nav>
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="personalized.html" class="nav-item">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Personalized Support</span>
+                </a>
+                <a href="counselling.html" class="nav-item">
+                    <i class="fas fa-comments"></i>
+                    <span>Professional Counselling</span>
+                </a>
+                <a href="peer.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Peer-to-Peer Support</span>
+                </a>
+                <a href="tools.html" class="nav-item active">
+                    <i class="fas fa-tools"></i>
+                    <span>Wellness Tools</span>
+                </a>
+                <a href="discord.html" class="nav-item">
+                    <i class="fab fa-discord"></i>
+                    <span>Discord Community</span>
+                </a>
+                <a href="settings.html" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-item" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="welcome-section">
+                <h1 class="welcome-title">Wellness Tools</h1>
+                <p class="welcome-subtitle">Access our collection of real-time wellness tools</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <h3 class="feature-title">Meditation</h3>
+                    <p class="feature-description">Guided meditation sessions for mindfulness and relaxation</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3 class="feature-title">Journaling</h3>
+                    <p class="feature-description">Digital journal with prompts and mood tracking</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3 class="feature-title">Mood Tracking</h3>
+                    <p class="feature-description">Track and analyze your daily mood patterns</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <h3 class="feature-title">Sleep Tools</h3>
+                    <p class="feature-description">Sleep tracking and relaxation sounds</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-breathing"></i>
+                    </div>
+                    <h3 class="feature-title">Breathing Exercises</h3>
+                    <p class="feature-description">Guided breathing techniques for stress relief</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = 'index.html';
+        }
+
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const userData = localStorage.getItem('user');
+            if (!userData) {
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
+</body>
+</html>

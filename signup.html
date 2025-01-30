@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - InMind Wellness</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-lg);
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+        }
+
+        .auth-card {
+            background: var(--bg-white);
+            padding: var(--spacing-xl);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        .auth-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .auth-logo img {
+            width: 48px;
+            height: 48px;
+            margin-right: var(--spacing-sm);
+        }
+
+        .auth-logo span {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .auth-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-dark);
+        }
+
+        .auth-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            color: var(--text-medium);
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--bg-lighter);
+            border-radius: 8px;
+            font-size: 1rem;
+            color: var(--text-dark);
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .name-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+        }
+
+        .form-check {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-check input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin-top: 4px;
+        }
+
+        .form-check label {
+            color: var(--text-medium);
+            font-size: 0.875rem;
+        }
+
+        .form-check a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .social-login {
+            margin: var(--spacing-lg) 0;
+            text-align: center;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+        }
+
+        .btn-social {
+            flex: 1;
+            background: var(--bg-lighter);
+            color: var(--text-medium);
+        }
+
+        .btn-social:hover {
+            background: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        .auth-footer {
+            text-align: center;
+            color: var(--text-light);
+            margin-top: var(--spacing-lg);
+        }
+
+        .auth-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-footer a:hover {
+            color: var(--primary-dark);
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 0.875rem;
+            margin-top: var(--spacing-xs);
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <img src="c:\Users\Aarti\OneDrive\Pictures\Screenshots\Screenshot 2025-01-30 060016.png" alt="InMind Logo">
+                <span>InMind</span>
+            </div>
+            
+            <h1 class="auth-title">Create your account</h1>
+            <p class="auth-subtitle">Join InMind Wellness to start your journey</p>
+
+            <form id="signupForm" onsubmit="handleSignup(event)">
+                <div class="name-fields">
+                    <div class="form-group">
+                        <label class="form-label" for="firstName">First name</label>
+                        <input type="text" id="firstName" class="form-input" required>
+                        <div class="error-message" id="firstNameError">First name is required</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="lastName">Last name</label>
+                        <input type="text" id="lastName" class="form-input" required>
+                        <div class="error-message" id="lastNameError">Last name is required</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="email">Email address</label>
+                    <input type="email" id="email" class="form-input" placeholder="name@example.com" required>
+                    <div class="error-message" id="emailError">Invalid email address</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                    <div class="error-message" id="passwordError">Password must be at least 8 characters</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="confirmPassword">Confirm password</label>
+                    <input type="password" id="confirmPassword" class="form-input" placeholder="••••••••" required>
+                    <div class="error-message" id="confirmPasswordError">Passwords do not match</div>
+                </div>
+
+                <div class="form-check">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">
+                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">
+                    Create account
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <div class="social-login">
+                <p>Or sign up with</p>
+                <div class="social-buttons">
+                    <button class="btn btn-social">
+                        <i class="fab fa-google"></i>
+                        Google
+                    </button>
+                    <button class="btn btn-social">
+                        <i class="fab fa-github"></i>
+                        GitHub
+                    </button>
+                </div>
+            </div>
+
+            <div class="auth-footer">
+                Already have an account? 
+                <a href="login.html">Sign in</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleSignup(event) {
+            event.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const terms = document.getElementById('terms').checked;
+
+            // Validation
+            let isValid = true;
+
+            if (!firstName) {
+                document.getElementById('firstNameError').classList.add('show');
+                isValid = false;
+            } else {
+                document.getElementById('firstNameError').classList.remove('show');
+            }
+
+            if (!lastName) {
+                document.getElementById('lastNameError').classList.add('show');
+                isValid = false;
+            } else {
+                document.getElementById('lastNameError').classList.remove('show');
+            }
+
+            if (!email) {
+                document.getElementById('emailError').classList.add('show');
+                isValid = false;
+            } else {
+                document.getElementById('emailError').classList.remove('show');
+            }
+
+            if (!password || password.length < 8) {
+                document.getElementById('passwordError').classList.add('show');
+                isValid = false;
+            } else {
+                document.getElementById('passwordError').classList.remove('show');
+            }
+
+            if (password !== confirmPassword) {
+                document.getElementById('confirmPasswordError').classList.add('show');
+                isValid = false;
+            } else {
+                document.getElementById('confirmPasswordError').classList.remove('show');
+            }
+
+            if (!terms) {
+                isValid = false;
+                alert('Please accept the Terms of Service and Privacy Policy');
+            }
+
+            if (isValid) {
+                // Store user data
+                const userData = {
+                    firstName,
+                    lastName,
+                    email
+                };
+                localStorage.setItem('user', JSON.stringify(userData));
+
+                // Redirect to login
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const userData = localStorage.getItem('user');
+            if (userData) {
+                window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html>

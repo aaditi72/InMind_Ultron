@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Support - InMind Wellness</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .mood-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .mood-calendar-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .mood-chart-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .mood-selector {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .mood-emoji {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-size: 1.5rem;
+        }
+
+        .mood-emoji:hover {
+            transform: scale(1.1);
+        }
+
+        .mood-emoji.selected {
+            background: rgba(79, 209, 197, 0.3);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .calendar-day.has-mood {
+            background: #4fd1c5;
+            color: white;
+        }
+
+        .calendar-day.today {
+            border: 2px solid #4fd1c5;
+        }
+
+        .mood-resources {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .resource-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .resource-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .resource-item i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #4fd1c5;
+        }
+
+        .chatbot {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .chatbot:hover {
+            transform: scale(1.1);
+        }
+
+        .chatbot i {
+            font-size: 1.5rem;
+            color: #4fd1c5;
+        }
+
+        .nutrition-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .nutrition-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .nutrition-chart {
+            height: 200px;
+            margin-top: 1rem;
+        }
+
+        .meal-log {
+            margin-top: 1.5rem;
+        }
+
+        .meal-input {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .meal-input select, .meal-input input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .meal-input button {
+            background: #4fd1c5;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .meal-input button:hover {
+            background: #38b2ac;
+        }
+
+        .nutrition-progress {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin: 0 1rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #4fd1c5;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo-container">
+            <img src="c:\Users\Aarti\OneDrive\Pictures\Screenshots\Screenshot 2025-01-30 060016.png" alt="InMind Logo">
+            <span>InMind</span>
+        </div>
+        <nav>
+            <a href="dashboard.html" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="personalized-support.html" class="nav-item active">
+                <i class="fas fa-user"></i>
+                <span>Personalized Support</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-comments"></i>
+                <span>Professional Counseling</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Peer-to-Peer</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-heart"></i>
+                <span>Real-Time Wellness</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-comment-dots"></i>
+                <span>Discord</span>
+            </a>
+        </nav>
+    </div>
+
+    <main class="main-content">
+        <h2>Track your Mood</h2>
+        <p class="subtitle">Your mental well-being matters. We're here to provide personalized resources and tools.</p>
+
+        <div class="mood-container">
+            <div class="mood-calendar-container">
+                <h3>How are you feeling today?</h3>
+                <div class="mood-selector">
+                    <div class="mood-emoji" data-mood="1">😢</div>
+                    <div class="mood-emoji" data-mood="2">😕</div>
+                    <div class="mood-emoji" data-mood="3">😊</div>
+                    <div class="mood-emoji" data-mood="4">😄</div>
+                    <div class="mood-emoji" data-mood="5">🤗</div>
+                </div>
+                <div class="calendar-grid" id="moodCalendar"></div>
+            </div>
+
+            <div class="mood-chart-container">
+                <h3>Mood Chart</h3>
+                <canvas id="moodChart"></canvas>
+            </div>
+        </div>
+
+        <div class="mood-resources">
+            <h3>What have you been up to?</h3>
+            <div class="resource-grid">
+                <div class="resource-item">
+                    <i class="fas fa-book-reader"></i>
+                    <span>Study</span>
+                </div>
+                <div class="resource-item">
+                    <i class="fas fa-running"></i>
+                    <span>Exercise</span>
+                </div>
+                <div class="resource-item">
+                    <i class="fas fa-music"></i>
+                    <span>Music</span>
+                </div>
+                <div class="resource-item">
+                    <i class="fas fa-users"></i>
+                    <span>Friends</span>
+                </div>
+                <div class="resource-item">
+                    <i class="fas fa-home"></i>
+                    <span>Family</span>
+                </div>
+                <div class="resource-item">
+                    <i class="fas fa-palette"></i>
+                    <span>Hobbies</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="nutrition-container">
+            <h3>Nutrition Tracking</h3>
+            <div class="nutrition-grid">
+                <div class="nutrition-item">
+                    <h4>Calories</h4>
+                    <div class="nutrition-progress">
+                        <span>1200</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
+                        <span>2000</span>
+                    </div>
+                </div>
+                <div class="nutrition-item">
+                    <h4>Water</h4>
+                    <div class="nutrition-progress">
+                        <span>1.5L</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                        <span>2L</span>
+                    </div>
+                </div>
+                <div class="nutrition-item">
+                    <h4>Protein</h4>
+                    <div class="nutrition-progress">
+                        <span>45g</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 80%"></div>
+                        </div>
+                        <span>56g</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="meal-log">
+                <h4>Log Your Meal</h4>
+                <div class="meal-input">
+                    <select id="mealType">
+                        <option value="breakfast">Breakfast</option>
+                        <option value="lunch">Lunch</option>
+                        <option value="dinner">Dinner</option>
+                        <option value="snack">Snack</option>
+                    </select>
+                    <input type="text" id="foodItem" placeholder="Food item">
+                    <input type="number" id="calories" placeholder="Calories">
+                    <button onclick="logMeal()">Add</button>
+                </div>
+                <canvas id="nutritionChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chatbot">
+            <i class="fas fa-robot"></i>
+        </div>
+    </main>
+
+    <script>
+        // Mood Calendar
+        function generateCalendar() {
+            const calendar = document.getElementById('moodCalendar');
+            const today = new Date();
+            const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+            
+            for (let i = 1; i <= daysInMonth; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day';
+                if (i === today.getDate()) {
+                    day.classList.add('today');
+                }
+                day.textContent = i;
+                calendar.appendChild(day);
+            }
+        }
+
+        // Mood Chart
+        function initMoodChart() {
+            const ctx = document.getElementById('moodChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Mood Level',
+                        data: [3, 4, 2, 5, 3, 4, 5],
+                        borderColor: '#4fd1c5',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 5,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.8)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.8)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Nutrition Chart
+        function initNutritionChart() {
+            const ctx = document.getElementById('nutritionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Breakfast', 'Lunch', 'Dinner', 'Snacks'],
+                    datasets: [{
+                        label: 'Calories',
+                        data: [300, 500, 400, 200],
+                        backgroundColor: [
+                            'rgba(79, 209, 197, 0.6)',
+                            'rgba(99, 179, 237, 0.6)',
+                            'rgba(246, 173, 85, 0.6)',
+                            'rgba(128, 90, 213, 0.6)'
+                        ],
+                        borderColor: [
+                            '#4fd1c5',
+                            '#63b3ed',
+                            '#f6ad55',
+                            '#805ad5'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.8)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.8)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Mood Selection
+        const moodEmojis = document.querySelectorAll('.mood-emoji');
+        moodEmojis.forEach(emoji => {
+            emoji.addEventListener('click', () => {
+                moodEmojis.forEach(e => e.classList.remove('selected'));
+                emoji.classList.add('selected');
+                
+                // Save mood to localStorage
+                const mood = emoji.dataset.mood;
+                const today = new Date().toISOString().split('T')[0];
+                const moods = JSON.parse(localStorage.getItem('moods') || '{}');
+                moods[today] = mood;
+                localStorage.setItem('moods', JSON.stringify(moods));
+
+                // Update calendar
+                const todayCell = document.querySelector('.calendar-day.today');
+                if (todayCell) {
+                    todayCell.classList.add('has-mood');
+                }
+            });
+        });
+
+        // Meal Logging
+        function logMeal() {
+            const mealType = document.getElementById('mealType').value;
+            const foodItem = document.getElementById('foodItem').value;
+            const calories = document.getElementById('calories').value;
+
+            if (!foodItem || !calories) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Save to localStorage
+            const meals = JSON.parse(localStorage.getItem('meals') || '[]');
+            meals.push({
+                type: mealType,
+                food: foodItem,
+                calories: parseInt(calories),
+                date: new Date().toISOString()
+            });
+            localStorage.setItem('meals', JSON.stringify(meals));
+
+            // Clear inputs
+            document.getElementById('foodItem').value = '';
+            document.getElementById('calories').value = '';
+
+            // Update chart (you would need to implement this)
+            updateNutritionChart();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            generateCalendar();
+            initMoodChart();
+            initNutritionChart();
+
+            // Check if user is authenticated
+            if (!isAuthenticated()) {
+                window.location.href = 'login.html';
+            }
+        });
+
+        function isAuthenticated() {
+            return localStorage.getItem('isAuthenticated') === 'true';
+        }
+    </script>
+</body>
+</html>

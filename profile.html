@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - InMind Wellness</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #4fd1c5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .profile-avatar:hover .avatar-overlay {
+            opacity: 1;
+        }
+
+        .avatar-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .profile-info {
+            flex-grow: 1;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-status {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4fd1c5;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .profile-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .achievement {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .achievement i {
+            font-size: 2rem;
+            color: #4fd1c5;
+            margin-bottom: 0.5rem;
+        }
+
+        .goal-list {
+            margin-top: 1rem;
+        }
+
+        .goal-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .goal-progress {
+            flex-grow: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .goal-progress-fill {
+            height: 100%;
+            background: #4fd1c5;
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+
+        .session-list {
+            margin-top: 1rem;
+        }
+
+        .session-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .privacy-settings {
+            margin-top: 1rem;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #4fd1c5;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .discord-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        .discord-icon {
+            font-size: 2rem;
+            color: #7289da;
+        }
+
+        .connect-button {
+            background: #7289da;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .connect-button:hover {
+            background: #677bc4;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo-container">
+            <img src="c:\Users\Aarti\OneDrive\Pictures\Screenshots\Screenshot 2025-01-30 060016.png" alt="InMind Logo">
+            <span>InMind</span>
+        </div>
+        <nav>
+            <a href="dashboard.html" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="personalized-support.html" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Personalized Support</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-comments"></i>
+                <span>Professional Counseling</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Peer-to-Peer</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-heart"></i>
+                <span>Real-Time Wellness</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-comment-dots"></i>
+                <span>Discord</span>
+            </a>
+            <a href="profile.html" class="nav-item active">
+                <i class="fas fa-user-circle"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+    </div>
+
+    <main class="main-content">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <i class="fas fa-user"></i>
+                <div class="avatar-overlay">
+                    <i class="fas fa-camera"></i>
+                </div>
+            </div>
+            <div class="profile-info">
+                <h2 class="profile-name">John Doe</h2>
+                <div class="profile-status">
+                    <div class="status-indicator"></div>
+                    <span>Online</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-grid">
+            <div class="profile-section">
+                <h3>Achievements</h3>
+                <div class="achievement-grid">
+                    <div class="achievement">
+                        <i class="fas fa-star"></i>
+                        <div>7-Day Streak</div>
+                    </div>
+                    <div class="achievement">
+                        <i class="fas fa-medal"></i>
+                        <div>Mindfulness Master</div>
+                    </div>
+                    <div class="achievement">
+                        <i class="fas fa-heart"></i>
+                        <div>Supportive Peer</div>
+                    </div>
+                    <div class="achievement">
+                        <i class="fas fa-trophy"></i>
+                        <div>Goal Achiever</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h3>Goals & Progress</h3>
+                <div class="goal-list">
+                    <div class="goal-item">
+                        <i class="fas fa-book"></i>
+                        <div>
+                            <div>Daily Journaling</div>
+                            <div class="goal-progress">
+                                <div class="goal-progress-fill" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <span>80%</span>
+                    </div>
+                    <div class="goal-item">
+                        <i class="fas fa-meditation"></i>
+                        <div>
+                            <div>Meditation Practice</div>
+                            <div class="goal-progress">
+                                <div class="goal-progress-fill" style="width: 60%"></div>
+                            </div>
+                        </div>
+                        <span>60%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h3>Upcoming Sessions</h3>
+                <div class="session-list">
+                    <div class="session-item">
+                        <div>
+                            <div>Dr. Sarah Johnson</div>
+                            <div>Counseling Session</div>
+                        </div>
+                        <div>Tomorrow, 2:00 PM</div>
+                    </div>
+                    <div class="session-item">
+                        <div>
+                            <div>Mindfulness Workshop</div>
+                            <div>Group Session</div>
+                        </div>
+                        <div>Feb 2, 11:00 AM</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h3>Privacy Settings</h3>
+                <div class="privacy-settings">
+                    <div class="setting-item">
+                        <span>Profile Visibility</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span>Anonymous Mode</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span>Activity History</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 2rem;">Discord Integration</h3>
+                <div class="discord-section">
+                    <i class="fab fa-discord discord-icon"></i>
+                    <div>
+                        <div>Connect with Discord</div>
+                        <div>Join our community</div>
+                    </div>
+                    <button class="connect-button">Connect</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Profile Image Upload
+        const profileAvatar = document.querySelector('.profile-avatar');
+        profileAvatar.addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        profileAvatar.style.backgroundImage = `url(${e.target.result})`;
+                        profileAvatar.innerHTML = '';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        });
+
+        // Privacy Settings
+        const toggleSwitches = document.querySelectorAll('.toggle-switch input');
+        toggleSwitches.forEach(toggle => {
+            toggle.addEventListener('change', (e) => {
+                const setting = e.target.closest('.setting-item').querySelector('span').textContent;
+                const enabled = e.target.checked;
+                // Save to localStorage
+                const settings = JSON.parse(localStorage.getItem('privacy_settings') || '{}');
+                settings[setting] = enabled;
+                localStorage.setItem('privacy_settings', JSON.stringify(settings));
+            });
+        });
+
+        // Discord Integration
+        const connectButton = document.querySelector('.connect-button');
+        connectButton.addEventListener('click', () => {
+            // Implement Discord OAuth flow
+            alert('Discord integration coming soon!');
+        });
+
+        // Check if user is authenticated
+        function isAuthenticated() {
+            return localStorage.getItem('isAuthenticated') === 'true';
+        }
+
+        if (!isAuthenticated()) {
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

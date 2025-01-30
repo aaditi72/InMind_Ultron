@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Wellness Tools - InMind Wellness</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="sidebar-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .breathing-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(79, 209, 197, 0.2);
+            margin: 2rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            animation: breathe 4s infinite ease-in-out;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .timer-display {
+            font-size: 2.5rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .timer-button {
+            background: #4fd1c5;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .timer-button:hover {
+            background: #38b2ac;
+        }
+
+        .mood-input {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .mood-options {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .mood-option {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .mood-option:hover {
+            transform: scale(1.1);
+        }
+
+        .mood-option.selected {
+            background: rgba(79, 209, 197, 0.3);
+        }
+
+        .activity-suggestions {
+            margin-top: 2rem;
+        }
+
+        .activity-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .activity-card:hover {
+            background: rgba(79, 209, 197, 0.1);
+        }
+
+        .activity-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(79, 209, 197, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notification-settings {
+            margin-top: 2rem;
+        }
+
+        .notification-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #4fd1c5;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .progress-ring {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+        }
+
+        .progress-ring circle {
+            fill: transparent;
+            stroke: #4fd1c5;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .progress-ring circle.bg {
+            stroke: rgba(255, 255, 255, 0.1);
+        }
+
+        .focus-timer {
+            text-align: center;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo-container">
+            <img src="c:\Users\Aarti\OneDrive\Pictures\Screenshots\Screenshot 2025-01-30 060016.png" alt="InMind Logo">
+            <span>InMind</span>
+        </div>
+        <nav>
+            <a href="dashboard.html" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="personalized-support.html" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Personalized support</span>
+            </a>
+            <a href="counseling.html" class="nav-item">
+                <i class="fas fa-comments"></i>
+                <span>Professional Counseling</span>
+            </a>
+            <a href="peer-support.html" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Peer-to-Peer</span>
+            </a>
+            <a href="wellness-tools.html" class="nav-item active">
+                <i class="fas fa-heart"></i>
+                <span>Real-Time Wellness</span>
+            </a>
+            <a href="discord.html" class="nav-item">
+                <i class="fab fa-discord"></i>
+                <span>Discord</span>
+            </a>
+            <a href="settings.html" class="nav-item settings-link">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+    </div>
+
+    <main class="main-content">
+        <h2>Real-Time Wellness Tools</h2>
+        <p class="subtitle">Take care of your mental well-being with our interactive tools.</p>
+
+        <div class="tools-grid">
+            <div class="tool-card">
+                <h3>Breathing Exercise</h3>
+                <div class="breathing-circle">
+                    <span id="breathingText">Breathe In</span>
+                </div>
+                <div class="timer-controls">
+                    <button class="timer-button" onclick="startBreathing()">Start</button>
+                    <button class="timer-button" onclick="stopBreathing()">Stop</button>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <h3>Focus Timer</h3>
+                <div class="focus-timer">
+                    <svg class="progress-ring">
+                        <circle class="bg" cx="60" cy="60" r="54"/>
+                        <circle class="progress" cx="60" cy="60" r="54"/>
+                    </svg>
+                    <div class="timer-display" id="focusTimer">25:00</div>
+                    <div class="timer-controls">
+                        <button class="timer-button" onclick="startFocusTimer()">Start</button>
+                        <button class="timer-button" onclick="resetFocusTimer()">Reset</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <h3>Mood Check-in</h3>
+                <div class="mood-input">
+                    <p>How are you feeling right now?</p>
+                    <div class="mood-options">
+                        <div class="mood-option" onclick="selectMood(this)">😢</div>
+                        <div class="mood-option" onclick="selectMood(this)">😕</div>
+                        <div class="mood-option" onclick="selectMood(this)">😊</div>
+                        <div class="mood-option" onclick="selectMood(this)">😄</div>
+                        <div class="mood-option" onclick="selectMood(this)">🤗</div>
+                    </div>
+                </div>
+                <div class="activity-suggestions">
+                    <h4>Suggested Activities</h4>
+                    <div class="activity-card">
+                        <div class="activity-header">
+                            <div class="activity-icon">
+                                <i class="fas fa-music"></i>
+                            </div>
+                            <div>
+                                <h4>Calming Music</h4>
+                                <p>Listen to relaxing sounds</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-card">
+                        <div class="activity-header">
+                            <div class="activity-icon">
+                                <i class="fas fa-walking"></i>
+                            </div>
+                            <div>
+                                <h4>Quick Walk</h4>
+                                <p>Take a 5-minute break</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <h3>Notification Settings</h3>
+                <div class="notification-settings">
+                    <div class="notification-option">
+                        <span>Mental Health Breaks</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="notification-option">
+                        <span>Hydration Reminders</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="notification-option">
+                        <span>Movement Prompts</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Breathing Exercise
+        let breathingInterval;
+        const breathingText = document.getElementById('breathingText');
+        const breathingCircle = document.querySelector('.breathing-circle');
+
+        function startBreathing() {
+            let phase = 'in';
+            breathingInterval = setInterval(() => {
+                if (phase === 'in') {
+                    breathingText.textContent = 'Breathe Out';
+                    phase = 'out';
+                } else {
+                    breathingText.textContent = 'Breathe In';
+                    phase = 'in';
+                }
+            }, 4000);
+        }
+
+        function stopBreathing() {
+            clearInterval(breathingInterval);
+            breathingText.textContent = 'Breathe In';
+        }
+
+        // Focus Timer
+        let focusInterval;
+        let timeLeft = 25 * 60; // 25 minutes
+        const focusTimer = document.getElementById('focusTimer');
+        const progressCircle = document.querySelector('.progress-ring circle.progress');
+        const radius = progressCircle.r.baseVal.value;
+        const circumference = radius * 2 * Math.PI;
+
+        progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+        progressCircle.style.strokeDashoffset = circumference;
+
+        function setProgress(percent) {
+            const offset = circumference - (percent / 100 * circumference);
+            progressCircle.style.strokeDashoffset = offset;
+        }
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            focusTimer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            setProgress((timeLeft / (25 * 60)) * 100);
+        }
+
+        function startFocusTimer() {
+            focusInterval = setInterval(() => {
+                timeLeft--;
+                updateTimer();
+                if (timeLeft === 0) {
+                    clearInterval(focusInterval);
+                    alert('Focus session complete!');
+                }
+            }, 1000);
+        }
+
+        function resetFocusTimer() {
+            clearInterval(focusInterval);
+            timeLeft = 25 * 60;
+            updateTimer();
+        }
+
+        // Mood Selection
+        function selectMood(element) {
+            document.querySelectorAll('.mood-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            // Save mood to localStorage
+            const mood = element.textContent;
+            const timestamp = new Date().toISOString();
+            const moods = JSON.parse(localStorage.getItem('moods') || '[]');
+            moods.push({ mood, timestamp });
+            localStorage.setItem('moods', JSON.stringify(moods));
+        }
+
+        // Notification Settings
+        const toggleSwitches = document.querySelectorAll('.toggle-switch input');
+        toggleSwitches.forEach(toggle => {
+            toggle.addEventListener('change', (e) => {
+                const setting = e.target.closest('.notification-option').querySelector('span').textContent;
+                const enabled = e.target.checked;
+                // Save to localStorage
+                const settings = JSON.parse(localStorage.getItem('notification_settings') || '{}');
+                settings[setting] = enabled;
+                localStorage.setItem('notification_settings', JSON.stringify(settings));
+
+                if (enabled) {
+                    // Request notification permission
+                    Notification.requestPermission().then(permission => {
+                        if (permission === 'granted') {
+                            scheduleNotifications(setting);
+                        }
+                    });
+                }
+            });
+        });
+
+        function scheduleNotifications(type) {
+            switch(type) {
+                case 'Mental Health Breaks':
+                    setInterval(() => {
+                        new Notification('Time for a Mental Health Break', {
+                            body: 'Take a moment to breathe and reset.',
+                            icon: 'images/logo.png'
+                        });
+                    }, 60 * 60 * 1000); // Every hour
+                    break;
+                case 'Hydration Reminders':
+                    setInterval(() => {
+                        new Notification('Stay Hydrated!', {
+                            body: 'Remember to drink water.',
+                            icon: 'images/logo.png'
+                        });
+                    }, 30 * 60 * 1000); // Every 30 minutes
+                    break;
+                case 'Movement Prompts':
+                    setInterval(() => {
+                        new Notification('Time to Move!', {
+                            body: 'Stand up and stretch for a minute.',
+                            icon: 'images/logo.png'
+                        });
+                    }, 45 * 60 * 1000); // Every 45 minutes
+                    break;
+            }
+        }
+
+        // Check Authentication
+        function isAuthenticated() {
+            return localStorage.getItem('isAuthenticated') === 'true';
+        }
+
+        if (!isAuthenticated()) {
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
